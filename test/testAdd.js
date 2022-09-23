@@ -15,10 +15,19 @@ web3.eth.accounts.wallet.add(account);
 //Add offer
 // Generate ranodm string of length 14
 let randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-contract.methods.addOffer(randomString,4,Math.floor(new Date()/1000 + 3600)).send({
+//Generate randon number from 1 to 10
+let price = Math.floor(Math.random() * 10) + 1;
+contract.methods.addOffer(randomString, price, Math.floor(new Date() / 1000 + 3600)).send({
     from: account.address,
-    gasLimit:1000000
+    gasLimit: 1000000
+}).then(res => {
+    console.log("Offer added")
+    contract.methods.getOffers().call().then(offers => {
+        //accept offer
+        console.log(offers[0]);
+    })
 })
+
 
 
 
