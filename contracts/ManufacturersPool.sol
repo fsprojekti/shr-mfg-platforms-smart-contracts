@@ -45,26 +45,36 @@ contract ManufacturersPool {
         revert("Offer not found");
     }
 
+    //Get offer index from id revert if not found
+    function getOfferIndex(string memory offerId) public view returns (uint){
+        for (uint i = 0; i < offers.length; i++) {
+            if (keccak256(abi.encodePacked(offers[i].id)) == keccak256(abi.encodePacked(offerId))) {
+                return i;
+            }
+        }
+        revert("Offer not found");
+    }
+
     function acceptOffer(string memory offerId) public returns (bool){
         //Get offer
-        Offer memory offer = getOffer(offerId);
+        uint offerIndex = getOfferIndex(offerId);
         //Check if offer is expired
-        require(offer.endDate > block.timestamp, "Offer is expired");
+        require(offers[offerIndex].endDate > block.timestamp, "Offer is expired");
 
         //Check if offer is available
-        require(offer.state == 0, "Offer is not available");
+        require(offers[offerIndex].state == 0, "Offer is not available");
 
-        offer.manufacturer = msg.sender;
-        offer.state = 1;
+        offers[offerIndex].manufacturer = msg.sender;
+        offers[offerIndex].state = 1;
         return true;
     }
 
     //Find offer that matches id and set state to 2
     function removeOffer(string memory offerId) public returns (bool){
+        uint offerIndex = getOfferIndex(offerId);
         //Must be the offer owner
-        require(getOffer(offerId).client == msg.sender, "You are not the offer owner");
-        Offer memory offer = getOffer(offerId);
-        offer.state = 2;
+        require(offers[offerIndex].client == msg.sender, "You are not the offer owner");
+        offers[offerIndex].state = 2;
         return true;
     }
 
