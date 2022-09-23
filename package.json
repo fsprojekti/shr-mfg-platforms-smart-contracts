@@ -2,6 +2,7 @@
   "name": "smartContracts",
   "version": "1.0.0",
   "dependencies": {
-    "@truffle/hdwallet-provider": "^2.0.14"
+    "@truffle/hdwallet-provider": "^2.0.14",
+    "web3": "^1.8.0"
   }
 }

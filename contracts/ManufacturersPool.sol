@@ -52,7 +52,7 @@ contract ManufacturersPool {
         require(offer.endDate > block.timestamp, "Offer is expired");
 
         //Check if offer is available
-        require(offer.state != 0, "Offer is not available");
+        require(offer.state == 0, "Offer is not available");
 
         offer.manufacturer = msg.sender;
         offer.state = 1;
@@ -74,5 +74,10 @@ contract ManufacturersPool {
 
     function isExpired(string memory offerId) public view returns (bool){
         return getOffer(offerId).endDate < block.timestamp;
+    }
+
+    //Get offers length
+    function getOffersLength() public view returns (uint){
+        return offers.length;
     }
 }
