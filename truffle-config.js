@@ -45,6 +45,7 @@
 // const { MNEMONIC, PROJECT_ID } = process.env;
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
+const secret = require('./secret.json');
 
 module.exports = {
   /**
@@ -66,7 +67,7 @@ module.exports = {
     //
     development: {
      host: "127.0.0.1",     // Localhost (default: none)
-     port: 8545,            // Standard Ethereum port (default: none)
+     port: 7545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
     },
     //
@@ -82,9 +83,9 @@ module.exports = {
     //
     // Useful for deploying to a public network.
     // Note: It's important to wrap the provider as a function to ensure truffle uses a new provider every time.
-    rinkeby: {
-      provider: () => new HDWalletProvider("over hip hard split assume erosion pistol slide sauce bread please muscle", 'https://rinkeby.infura.io/v3/5b5e5c71a5ed48a1bd63956d8e6ccb5e'),
-      network_id: 4,
+    sepolia: {
+      provider: () => new HDWalletProvider(secret.sepolia.mnemonic, 'https://eth-sepolia.g.alchemy.com/v2/auQkAS4fXuM5E1pYq-C7ppq-_vH4N-HM'),
+      network_id: 11155111,
       gas: 5500000,
       gasPrice: 10000000000
     },
@@ -105,7 +106,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.16",      // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.19",      // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {

@@ -1,5 +1,6 @@
-const ManufacturersPool = artifacts.require("ManufacturersPool");
+const CapacityPool = artifacts.require("CapacityPool");
 
 module.exports = function (deployer) {
-  deployer.deploy(ManufacturersPool);
+  deployer.deploy(CapacityPool);
+  console.log(CapacityPool);
 };
