@@ -19,6 +19,9 @@ contract CapacityPool {
 
     Offer[] public offers;
 
+    //Event for offer update
+    event OfferUpdated(Offer offer);
+
     function isOfferUnique(string memory id) public view returns (bool){
         for (uint i = 0; i < offers.length; i++) {
             if (keccak256(abi.encodePacked(offers[i].id)) == keccak256(abi.encodePacked(id))) {
@@ -34,6 +37,7 @@ contract CapacityPool {
         //Check expiration date
         require(expiryTimestamp > block.timestamp, "Expiration date is in the past");
         offers.push(Offer(id, msg.sender, price, 0, expiryTimestamp, address(0)));
+        emit OfferUpdated(offers[offers.length - 1]);
         return offers[offers.length - 1];
     }
 
@@ -48,6 +52,7 @@ contract CapacityPool {
         //Check if offer is expired
         require(offers[offerIndex].expiryTimestamp > block.timestamp, "Offer is expired");
         offers[offerIndex].state = 2;
+        emit OfferUpdated(offers[offerIndex]);
         return true;
     }
 
@@ -82,6 +87,9 @@ contract CapacityPool {
 
         offers[offerIndex].buyer = msg.sender;
         offers[offerIndex].state = 1;
+
+        emit OfferUpdated(offers[offerIndex]);
+
         return true;
     }
 
@@ -98,4 +106,6 @@ contract CapacityPool {
     function getOffersLength() public view returns (uint){
         return offers.length;
     }
+
+
 }
