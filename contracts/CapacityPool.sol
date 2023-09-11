@@ -106,6 +106,4 @@ contract CapacityPool {
     function getOffersLength() public view returns (uint){
         return offers.length;
     }
-
-
 }
